@@ -92,7 +92,7 @@ jobs:
     - name: Create release
       uses: ncipollo/release-action@v1
       with:
-        name: ${{ env.DATE }} ❤️ / Cloud-N1-OpenWrt | 自动编译
+        name: ${{ env.DATE }} ❤️ | N1-OpenWrt 自动编译
         allowUpdates: true
         tag: ${{ env.tag_name }}
         commit: master
