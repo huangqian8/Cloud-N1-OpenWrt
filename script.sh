@@ -279,4 +279,29 @@ cat >> .config <<EOF
 # CONFIG_PACKAGE_strongswan-mod-xcbc is not set
 # CONFIG_PACKAGE_vsftpd-alt is not set
 # CONFIG_PACKAGE_zerotier is not set
+# CONFIG_PACKAGE_dns2socks is not set
+# CONFIG_PACKAGE_libevent2 is not set
+# CONFIG_PACKAGE_libuci-lua is not set
+# CONFIG_PACKAGE_luci-app-ssr-plus is not set
+# CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Redsocks2 is not set
+# CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_ShadowsocksR_Server is not set
+# CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Trojan is not set
+# CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_V2ray is not set
+# CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_V2ray_plugin is not set
+# CONFIG_PACKAGE_microsocks is not set
+# CONFIG_PACKAGE_redsocks2 is not set
+# CONFIG_PACKAGE_shadowsocksr-libev-server is not set
+# CONFIG_PACKAGE_simple-obfs is not set
+# CONFIG_PACKAGE_tcpping is not set
+# CONFIG_PACKAGE_v2ray-plugin is not set
 EOF
+# Add luci-app-vssr
+git clone https://github.com/jerrykuku/lua-maxminddb.git package-temp/lua-maxminddb
+git clone https://github.com/jerrykuku/luci-app-vssr.git package-temp/luci-app-vssr
+mv -f package-temp/lua-maxminddb package/lean/
+mv -f package-temp/luci-app-vssr package/lean/
+cat >> .config <<EOF
+CONFIG_PACKAGE_lua-maxminddb=y
+CONFIG_PACKAGE_luci-app-vssr=y
+EOF
+rm -rf package-temp

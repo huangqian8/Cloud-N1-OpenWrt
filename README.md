@@ -13,6 +13,7 @@
   - [x] 添加第三方插件 luci-app-openclash
   - [ ] 添加无线功能（待测试）
   - [x] 添加 Docker （系统——启动项：启动）
+  - [x] 添加第三方插件 luci-app-vssr
 
 **精简项**：
   - [x] luci-app-accesscontrol
@@ -24,6 +25,7 @@
   - [x] luci-app-vsftpd
   - [x] luci-app-xlnetacc
   - [x] luci-app-zerotier
+  - [x] luci-app-ssr-plus
 
 ## 感谢 ❤️
 - 源码来源： Lean 的 Openwrt 源码仓库 https://github.com/coolsnowwolf/lede
