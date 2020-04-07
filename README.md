@@ -7,7 +7,7 @@
 
 **增强项**：（**打勾项**默认**编译**入固件；**未打勾项**默认**不编译**入固件。）
   - [x] 修改架构适配斐讯 N1 盒子
-  - [x] 添加 Perl 依赖（待测试）
+  - [x] 添加 Perl、Python 依赖
   - [x] 修改登录IP为 192.168.2.2，网关、DNS为 192.168.2.1，关闭DHCP服务
   - [x] 添加主题 opentomacat 并设置为默认
   - [x] 添加第三方插件 luci-app-openclash
@@ -26,6 +26,8 @@
   - [x] luci-app-xlnetacc
   - [x] luci-app-zerotier
   - [x] luci-app-ssr-plus
+
+![snapshot.png](https://i.loli.net/2020/04/07/krxPtyBf6hmzYLq.png)
 
 ## 感谢 ❤️
 - 源码来源： Lean 的 Openwrt 源码仓库 https://github.com/coolsnowwolf/lede
