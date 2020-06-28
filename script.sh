@@ -2,8 +2,8 @@
 # Version: 1.0
 cd openwrt
 # Disable wireless
-rm -rf files/etc/config/wireless
-rm -rf files/etc/modules.d/wireless_enable
+#rm -rf files/etc/config/wireless
+#rm -rf files/etc/modules.d/wireless_enable
 # Change CPU architecture and compression options
 cat >> .config <<EOF
 CONFIG_TARGET_armvirt=y
