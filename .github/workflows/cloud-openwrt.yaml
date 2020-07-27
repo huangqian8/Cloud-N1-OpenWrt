@@ -3,11 +3,12 @@ name: Cloud OpenWrt
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - 'script.sh'
-  schedule:
-    - cron: 0 8 * * 0
+      - 'README.md'
+  #schedule:
+    #- cron: 0 8 * * 0
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
@@ -18,24 +19,29 @@ env:
   TZ: Asia/Shanghai
 
 jobs:
-  build:
+  build_openwrt:
+    name: Build OpenWrt and release
     runs-on: ubuntu-18.04
-    if: github.event.repository.owner.id == github.event.sender.id
 
     steps:
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
+      with:
+        ref: main
 
     - name: Initialization environment
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
-        sudo -E apt-get -qq update
-        sudo -E apt-get -qq install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs gcc-multilib g++-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler antlr3 gperf
-        sudo -E apt-get -qq autoremove --purge
-        sudo -E apt-get -qq clean
+        docker rmi `docker images -q`
+        sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d
+        sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
+        sudo -E apt-get update
+        sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs gcc-multilib g++-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler antlr3 gperf swig
+        sudo -E apt-get -y autoremove --purge
+        sudo -E apt-get clean
         sudo timedatectl set-timezone "$TZ"
+        df -h
 
     - name: Clone source code
       run: |
@@ -47,7 +53,10 @@ jobs:
         echo "::set-env name=tag_name::$(date +%Y%m%d)"
 
     - name: Update feeds
-      run: cd openwrt && ./scripts/feeds update -a
+      run: |
+        cd openwrt
+        sed -i 's/\"#src-git\"/\"src-git\"/g' ./feeds.conf.default
+        ./scripts/feeds update -a
 
     - name: Load custom configuration
       run: |
@@ -63,7 +72,6 @@ jobs:
         cd openwrt
         make defconfig
         make download -j8
-        find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
     - name: Compile the firmware
@@ -71,6 +79,14 @@ jobs:
         cd openwrt
         echo -e "$(nproc) thread compile"
         make -j$(nproc) || make -j1 V=s
+        echo "======================="
+        echo "Space usage:"
+        echo "======================="
+        df -h
+        echo "======================="
+        du -h --max-depth=1 ./ --exclude=build_dir --exclude=bin
+        du -h --max-depth=1 ./build_dir
+        du -h --max-depth=1 ./bin
         echo "::set-output name=status::success"
 
     - name: Organize files
@@ -83,7 +99,7 @@ jobs:
         echo "::set-output name=status::success"
 
     - name: Upload firmware directory
-      uses: actions/upload-artifact@master
+      uses: actions/upload-artifact@main
       if: steps.organize.outputs.status == 'success' && !cancelled()
       with:
         name: OpenWrt_firmware
@@ -95,7 +111,7 @@ jobs:
         name: ${{ env.DATE }} ❤️ | N1-OpenWrt 自动编译
         allowUpdates: true
         tag: ${{ env.tag_name }}
-        commit: master
+        commit: main
         token: ${{ secrets.RELEASES_TOKEN }}
         body: |
           编译使用版本:

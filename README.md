@@ -1,4 +1,8 @@
 # 云编译 N1 OpenWrt 固件
+
+**更新日志**
+- 20200727 docker兼容性造成编译错误，暂不集成
+
 说明：
 - 本项目使用 Github Actions 下载 [Lean](https://github.com/coolsnowwolf/lede) 的 `Openwrt` 源码仓库，进行云编译。
 - 本项目使用定时编译（北京时间每周日下午4点开始自动运行编译）及触发编译（更新script.sh后可开始编译）两种方式。
@@ -12,7 +16,7 @@
   - [x] 添加主题 opentomacat 并设置为默认
   - [x] 添加第三方插件 luci-app-openclash
   - [ ] 添加无线功能（待测试）
-  - [x] 启用 Docker （系统——启动项：启动）
+  - [ ] 启用 Docker （系统——启动项：启动）
   - [x] 添加第三方插件 luci-app-vssr
 
 **精简项**：

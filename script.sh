@@ -209,11 +209,11 @@ rm -rf theme-temp
 default_theme='opentomcat'
 sed -i "s/bootstrap/$default_theme/g" feeds/luci/modules/luci-base/root/etc/config/luci
 # Add docker
-cat >> .config <<EOF
-CONFIG_PACKAGE_luci-app-dockerman=y
-CONFIG_PACKAGE_luci-lib-docker=y
-CONFIG_PACKAGE_docker-ce=y
-EOF
+#cat >> .config <<EOF
+#CONFIG_PACKAGE_luci-app-dockerman=y
+#CONFIG_PACKAGE_luci-lib-docker=y
+#CONFIG_PACKAGE_docker-ce=y
+#EOF
 # Remove luci-app-*
 cat >> .config <<EOF
 # CONFIG_PACKAGE_adbyby is not set
