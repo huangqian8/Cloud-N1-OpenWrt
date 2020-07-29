@@ -1,4 +1,4 @@
-name: Cloud OpenWrt
+name: Cloud N1 OpenWrt
 
 on:
   push:
