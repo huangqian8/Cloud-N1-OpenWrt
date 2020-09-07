@@ -1,10 +1,12 @@
 # 云编译 N1 OpenWrt 固件
 
 **更新日志**
+- 20200907 RELEASES_TOKEN 说明
 - 20200727 docker兼容性造成编译错误，暂不集成
 
 说明：
 - 本项目使用 Github Actions 下载 [Lean](https://github.com/coolsnowwolf/lede) 的 `Openwrt` 源码仓库，进行云编译。
+- 必须添加 RELEASES_TOKEN ，[点击此处](https://github.com/settings/tokens)，选择public_repo ，添加到 settings-Secrets-Add a new secret
 - 本项目使用定时编译（北京时间每周日下午4点开始自动运行编译）及触发编译（更新script.sh后可开始编译）两种方式。
 - 本项目编译固件适配斐讯 N1 盒子，如需刷机，另需使用打包工具生成刷机固件。
 - 本项目相对源码默认设置做了如下更改：
