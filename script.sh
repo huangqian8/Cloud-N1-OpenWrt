@@ -204,7 +204,7 @@ CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Trojan=y
 CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_V2ray=y
 CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_V2ray_plugin=y
 CONFIG_PACKAGE_v2ray-plugin=y
-CONFIG_PACKAGE_shadowsocksr-libev-server=y
+#CONFIG_PACKAGE_shadowsocksr-libev-server=y
 EOF
 rm -rf package-temp
 # Add luci-theme-opentomcat
