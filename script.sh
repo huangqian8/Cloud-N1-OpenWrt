@@ -195,6 +195,15 @@ CONFIG_PACKAGE_libcurl=y
 CONFIG_PACKAGE_libncurses=y
 CONFIG_PACKAGE_libreadline=y
 CONFIG_PACKAGE_terminfo=y
+CONFIG_PACKAGE_zerotier=y
+CONFIG_PACKAGE_dns2socks=y
+CONFIG_PACKAGE_luci-app-ssr-plus=y
+CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Redsocks2=y
+CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_ShadowsocksR_Server=y
+CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Trojan=y
+CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_V2ray=y
+CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_V2ray_plugin=y
+CONFIG_PACKAGE_v2ray-plugin=y
 EOF
 rm -rf package-temp
 # Add luci-theme-opentomcat
@@ -278,22 +287,13 @@ cat >> .config <<EOF
 # CONFIG_PACKAGE_strongswan-mod-xauth-generic is not set
 # CONFIG_PACKAGE_strongswan-mod-xcbc is not set
 # CONFIG_PACKAGE_vsftpd-alt is not set
-# CONFIG_PACKAGE_zerotier is not set
-# CONFIG_PACKAGE_dns2socks is not set
 # CONFIG_PACKAGE_libevent2 is not set
 # CONFIG_PACKAGE_libuci-lua is not set
-# CONFIG_PACKAGE_luci-app-ssr-plus is not set
-# CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Redsocks2 is not set
-# CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_ShadowsocksR_Server is not set
-# CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Trojan is not set
-# CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_V2ray is not set
-# CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_V2ray_plugin is not set
 # CONFIG_PACKAGE_microsocks is not set
 # CONFIG_PACKAGE_redsocks2 is not set
 # CONFIG_PACKAGE_shadowsocksr-libev-server is not set
 # CONFIG_PACKAGE_simple-obfs is not set
 # CONFIG_PACKAGE_tcpping is not set
-# CONFIG_PACKAGE_v2ray-plugin is not set
 EOF
 # Add luci-app-vssr
 git clone https://github.com/jerrykuku/lua-maxminddb.git package-temp/lua-maxminddb
