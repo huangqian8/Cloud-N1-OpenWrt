@@ -15,7 +15,7 @@ env:
   CONFIG_FILE: .config
   SCRIPT_SH: script.sh
   UPLOAD_FIRMWARE: true
-  TZ: Asia/Shanghai
+  TZ: Asia/Chongqing
 
 jobs:
   build_openwrt:
