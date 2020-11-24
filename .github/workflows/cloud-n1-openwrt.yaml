@@ -47,9 +47,9 @@ jobs:
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
         cd openwrt
         useVersionInfo=$(git show -s --date=short --format="date: %cd<br/>commit: %s<br/>commit hash: %H")
-        echo "::set-env name=useVersionInfo::$useVersionInfo"
-        echo "::set-env name=DATE::$(date "+%Y-%m-%d %H:%M:%S")"
-        echo "::set-env name=tag_name::$(date +%Y%m%d)"
+        echo "useVersionInfo=$useVersionInfo" >> $GITHUB_ENV
+        echo "DATE=$(date "+%Y-%m-%d %H:%M:%S")" >> $GITHUB_ENV
+        echo "tag_name=$(date +%Y%m%d)" >> $GITHUB_ENV
 
     - name: Update feeds
       run: |
@@ -94,7 +94,7 @@ jobs:
       run: |
         cd openwrt/bin/targets/*/*
         rm -rf packages openwrt-armvirt-64-default.manifest openwrt-armvirt-64-Image openwrt-armvirt-64-Image-initramfs sha256sums version.buildinfo feeds.buildinfo openwrt-armvirt-64-rootfs-ext4.img
-        echo "::set-env name=FIRMWARE::$PWD"
+        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
 
     - name: Upload firmware directory
