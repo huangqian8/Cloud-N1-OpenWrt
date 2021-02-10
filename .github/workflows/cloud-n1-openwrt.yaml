@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'script.sh'
+      - 'config.sh'
   schedule:
     - cron: 0 8 * * 0
 
@@ -14,6 +15,7 @@ env:
   REPO_BRANCH: master
   CONFIG_FILE: .config
   SCRIPT_SH: script.sh
+  CONFIG_SH: config.sh
   UPLOAD_FIRMWARE: true
   TZ: Asia/Shanghai
 
@@ -36,7 +38,7 @@ jobs:
         sudo rm -rf /usr/share/dotnet /etc/mysql /etc/php /etc/apt/sources.list.d
         sudo -E apt-get -y purge azure-cli ghc* zulu* hhvm llvm* firefox google* dotnet* powershell openjdk* mysql* php*
         sudo -E apt-get update
-        sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs gcc-multilib g++-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler antlr3 gperf swig rsync
+        sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch python3 python2.7 unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler g++-multilib antlr3 gperf wget curl swig rsync
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
         sudo timedatectl set-timezone "$TZ"
@@ -53,18 +55,22 @@ jobs:
 
     - name: Update feeds
       run: |
-        cd openwrt
-        sed -i 's/\"#src-git\"/\"src-git\"/g' ./feeds.conf.default
-        ./scripts/feeds update -a
-
-    - name: Load custom configuration
-      run: |
         [ -e files ] && mv files openwrt/files
         chmod +x $SCRIPT_SH
         ./$SCRIPT_SH
+        cd openwrt
+        sed -i 's/#src-git helloworld/src-git helloworld/g' ./feeds.conf.default
+        ./scripts/feeds update -a
 
     - name: Install feeds
-      run: cd openwrt && ./scripts/feeds install -a
+      run: |
+        cd openwrt
+        ./scripts/feeds install -a
+
+    - name: Load custom configuration
+      run: |
+        chmod +x $CONFIG_SH
+        ./$CONFIG_SH
 
     - name: Download package
       run: |

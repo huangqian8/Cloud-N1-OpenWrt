@@ -1,6 +1,7 @@
 # 云编译 N1 OpenWrt 固件
 
 **更新日志**
+- 20210210 修正源码更新造成的编译错误，尝试再次集成 docker。调整 script.sh，分离出 config.sh。 **此版本变动较大，待测试！！！**
 - 20201124 修正 set-env 有效性造成的编译错误
 - 20200926 修正 openclash 编译错误
 - 20200727 docker兼容性造成编译错误，暂不集成
@@ -17,21 +18,22 @@
   - [x] 修改登录IP为 192.168.2.2，网关、DNS为 192.168.2.1，关闭DHCP服务
   - [x] 添加主题 opentomacat 并设置为默认
   - [x] 添加第三方插件 luci-app-openclash
-  - [ ] 添加无线功能（待测试）
-  - [ ] 启用 Docker （系统——启动项：启动）
+  - [x] 添加无线功能（待测试）
+  - [x] 启用 Docker （系统——启动项：启动）
   - [x] 添加第三方插件 luci-app-vssr
 
 **精简项**：
   - [x] luci-app-accesscontrol
   - [x] luci-app-adbyby-plus
-  - [x] luci-app-airplay2
+  - [x] luci-app-arpbind
   - [x] luci-app-ddns
   - [x] luci-app-ipsec-vpnd
+  - [x] luci-app-rclone
   - [x] luci-app-upnp
+  - [x] luci-app-uugamebooster
   - [x] luci-app-vsftpd
   - [x] luci-app-xlnetacc
   - [x] luci-app-zerotier
-  - [x] luci-app-ssr-plus
 
 ![snapshot.png](https://i.loli.net/2020/04/07/krxPtyBf6hmzYLq.png)
 
