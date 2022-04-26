@@ -1,8 +1,9 @@
 # 云编译 N1 OpenWrt 固件
 
 **更新日志**
-- 20210827 更新配置，具体功能见截图。
-- 20210210 修正源码更新造成的编译错误，集成 docker。脚本文件调整。
+- 20220426 更新依赖安装命令，更新配置
+- 20210827 更新配置，具体功能见截图
+- 20210210 修正源码更新造成的编译错误，集成 docker。脚本文件调整
 - 20201124 修正 set-env 有效性造成的编译错误
 - 20200926 修正 openclash 编译错误
 - 20200727 docker兼容性造成编译错误，暂不集成
@@ -25,16 +26,13 @@
 
 **精简项**：
   - [x] luci-app-accesscontrol
-  - [x] luci-app-adbyby-plus
   - [x] luci-app-arpbind
   - [x] luci-app-ddns
-  - [x] luci-app-ipsec-vpnd
+  - [x] luci-app-filetransfer
   - [x] luci-app-rclone
+  - [x] luci-app-turboacc
   - [x] luci-app-upnp
-  - [x] luci-app-uugamebooster
   - [x] luci-app-vsftpd
-  - [x] luci-app-xlnetacc
-  - [x] luci-app-zerotier
 
 ![N1_OpenWRT.png](https://i.loli.net/2021/08/27/u4318mKdQlYtek2.png)
 
