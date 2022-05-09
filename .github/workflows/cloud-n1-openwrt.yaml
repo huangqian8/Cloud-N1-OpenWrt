@@ -12,11 +12,11 @@ on:
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
-  CONFIG_FILE: .config
   SCRIPT_SH: script.sh
   CONFIG_SH: config.sh
   UPLOAD_FIRMWARE: true
   TZ: Asia/Shanghai
+  KERNEL_VERSION: 5.17.5
 
 jobs:
   build_openwrt:
@@ -99,7 +99,8 @@ jobs:
       env:
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
         PACKAGE_SOC: s905d
-        KERNEL_VERSION_NAME: 5.15.36
+        KERNEL_VERSION_NAME: ${{ env.KERNEL_VERSION }}
+        WHOAMI: huangqian8
 
     - name: Organize files
       id: organize
@@ -133,7 +134,7 @@ jobs:
           
           刷机固件简介：
             打包日期：${{ env.PACKAGED_OUTPUTDATE }}
-            内核版本：5.15.36
+            内核版本：${{ env.KERNEL_VERSION }}
             默认IP：192.168.2.2 默认用户名密码： root/password
         artifacts: "${{ env.FIRMWARE }}/*,${{ env.PACKAGED_OUTPUTPATH }}/*"
 
