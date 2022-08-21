@@ -1,14 +1,25 @@
-name: Cloud N1 OpenWrt
+#=================================================
+# Description: Build OpenWrt using GitHub Actions
+# Lisence: MIT
+# Author: eSirPlayground
+# Youtube Channel: https://goo.gl/fvkdwm 
+#=================================================
 
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'README.md'
+name: Build_Phicomm_N1
+
+on: 
+  release:
+    types: [published]
+
   push:
     branches: 
       - master
+
+  #schedule:
+  #  - cron: 0 8 * * 5
+  
+  #watch:
+  #  types: [started]
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
