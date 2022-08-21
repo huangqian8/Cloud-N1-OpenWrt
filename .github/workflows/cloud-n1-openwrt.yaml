@@ -11,9 +11,9 @@ on:
         required: false
         default: 'false'
         
- push:
-  branches: 
-    - master       
+  push:
+   branches: 
+     - master       
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
