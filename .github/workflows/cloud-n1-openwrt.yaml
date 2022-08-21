@@ -1,25 +1,19 @@
-#=================================================
-# Description: Build OpenWrt using GitHub Actions
-# Lisence: MIT
-# Author: eSirPlayground
-# Youtube Channel: https://goo.gl/fvkdwm 
-#=================================================
 
-name: Build_Phicomm_N1
+name: N1-OpenWrt-Lede
 
-on: 
-  release:
-    types: [published]
 
-  push:
-    branches: 
-      - master
-
-  #schedule:
-  #  - cron: 0 8 * * 5
-  
-  #watch:
-  #  types: [started]
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'SSH connection to Actions'
+        required: false
+        default: 'false'
+        
+ push:
+  branches: 
+    - master       
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
