@@ -60,6 +60,7 @@ jobs:
 
     - name: Load custom feeds
       run: |
+        [ -e files ] && mv files openwrt/files
         chmod +x $SCRIPT_SH
         ./$SCRIPT_SH
         
