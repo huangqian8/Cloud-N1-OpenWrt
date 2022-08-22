@@ -1,3 +1,4 @@
+
 config amlogic 'config'
 	option amlogic_firmware_repo 'https://github.com/zouchanggan/Cloud-N1-OpenWrt'
 	option amlogic_firmware_tag 'OpenWrt_N1'
