@@ -14,12 +14,13 @@ on:
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
+  CONFIG_FILE: .config
   SCRIPT_SH: script.sh
-  CONFIG_SH: config.sh
+  #CONFIG_SH: config.sh
   UPLOAD_FIRMWARE: true
   TZ: Asia/Shanghai
-  FILE_NAME: ARMv8
-  PRODUCT_NAME: ARMv8
+  FILE_NAME: OpenWrt_N1
+  PRODUCT_NAME: OpenWrt_N1
   KERNEL_VERSION: 5.4.210_5.15.60_5.19.1
 
 jobs:
@@ -57,14 +58,17 @@ jobs:
         echo "DATE=$(date "+%Y-%m-%d %H:%M:%S")" >> $GITHUB_ENV
         echo "tag_name=$(date +%Y%m%d)" >> $GITHUB_ENV
 
-    - name: Update feeds
+    - name: Load custom feeds
       run: |
         [ -e files ] && mv files openwrt/files
         chmod +x $SCRIPT_SH
         ./$SCRIPT_SH
-        cd openwrt
-        sed -i 's/#src-git helloworld/src-git helloworld/g' ./feeds.conf.default
-        ./scripts/feeds update -a
+        
+    - name: Update feeds
+      run: |
+        chmod +x $SRC_SH
+        ./$SRC_SH
+        cd openwrt && ./scripts/feeds update -a        
 
     - name: Install feeds
       run: |
@@ -73,8 +77,9 @@ jobs:
 
     - name: Load custom configuration
       run: |
-        chmod +x $CONFIG_SH
-        ./$CONFIG_SH
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        chmod +x $CONFIG_FILE
+        ./$CONFIG_FILE
 
     - name: Download package
       run: |
@@ -141,7 +146,8 @@ jobs:
           刷机固件简介：
             打包日期：${{ env.PACKAGED_OUTPUTDATE }}
             内核版本：${{ env.KERNEL_VERSION }}
-            默认IP：192.168.2.2 默认用户名密码： root/password
+            当前使用版本:【编译前的最后一次➦[主源码](https://github.com/coolsnowwolf/lede)更新记录】
+            默认IP：192.168.1.10 用户名：root 默认密码：password
         artifacts: "${{ env.FIRMWARE }}/*,${{ env.PACKAGED_OUTPUTPATH }}/*"
 
     - name: Remove old Releases
