@@ -80,6 +80,7 @@ jobs:
       env:
         CONFIG_FILE: '.config'
       run: |
+        [[ -d "files" ]] && mv -f files openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x ./customize.sh && ./customize.sh
         cd openwrt && make defconfig
