@@ -16,6 +16,7 @@ env:
   REPO_BRANCH: master
   CONFIG_FILE: .config
   SCRIPT_SH: script.sh
+  SRC_SH: src.sh
   #CONFIG_SH: config.sh
   UPLOAD_FIRMWARE: true
   TZ: Asia/Shanghai
