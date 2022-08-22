@@ -1,3 +1,4 @@
+
 config wifi-device 'radio0'
 	option type 'mac80211'
 	option channel '36'
@@ -8,6 +9,7 @@ config wifi-iface 'default_radio0'
 	option device 'radio0'
 	option network 'lan'
 	option mode 'ap'
-	option ssid 'OpenWrt'
+	option encryption 'psk-mixed'
+	option ssid 'Phicomm_n1'
 	option encryption 'none'
 	option disabled '1'
