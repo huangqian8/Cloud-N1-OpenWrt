@@ -60,7 +60,6 @@ jobs:
 
     - name: Load custom feeds
       run: |
-        [ -e files ] && mv files openwrt/files
         chmod +x $SCRIPT_SH
         ./$SCRIPT_SH
         
@@ -77,6 +76,7 @@ jobs:
 
     - name: Load custom configuration
       run: |
+        [ -e files ] && mv files openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
         chmod +x $CONFIG_FILE
         ./$CONFIG_FILE
