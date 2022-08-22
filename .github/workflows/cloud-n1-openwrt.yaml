@@ -22,7 +22,7 @@ env:
   TZ: Asia/Shanghai
   FILE_NAME: OpenWrt_N1
   PRODUCT_NAME: OpenWrt_N1
-  KERNEL_VERSION: 5.4.210_5.15.60_5.19.1
+  KERNEL_VERSION: 5.4.210_5.15.62_5.19.3
 
 jobs:
   build_openwrt:
