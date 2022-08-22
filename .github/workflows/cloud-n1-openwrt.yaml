@@ -18,7 +18,9 @@ env:
   CONFIG_SH: config.sh
   UPLOAD_FIRMWARE: true
   TZ: Asia/Shanghai
-  KERNEL_VERSION: 5.19.1
+  FILE_NAME: ARMv8
+  PRODUCT_NAME: ARMv8
+  KERNEL_VERSION: 5.4.210_5.15.60_5.19.1
 
 jobs:
   build_openwrt:
@@ -102,7 +104,9 @@ jobs:
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
         PACKAGE_SOC: s905d
         KERNEL_VERSION_NAME: ${{ env.KERNEL_VERSION }}
-        WHOAMI: huangqian8
+        WHOAMI: breakings
+        KERNEL_AUTO_LATEST: true
+        GZIP_IMGS: .gz        
 
     - name: Organize files
       id: organize
@@ -125,9 +129,9 @@ jobs:
     - name: Create release
       uses: ncipollo/release-action@v1
       with:
-        name: ${{ env.DATE }} ❤️ | N1-OpenWrt 编译
+        name: ${{ env.DATE }} for ${{ env.FILE_NAME }}
         allowUpdates: true
-        tag: ${{ env.tag_name }}
+        tag: ${{ env.FILE_NAME }}
         commit: main
         token: ${{ secrets.GH_TOKEN }}
         body: |
