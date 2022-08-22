@@ -63,9 +63,6 @@ jobs:
         [ -e files ] && mv files openwrt/files
         chmod +x $SCRIPT_SH
         ./$SCRIPT_SH
-        cd openwrt
-        sed -i 's/#src-git helloworld/src-git helloworld/g' ./feeds.conf.default
-        ./scripts/feeds update -a
         
     - name: Update feeds
       run: |
@@ -79,10 +76,12 @@ jobs:
         ./scripts/feeds install -a
 
     - name: Load custom configuration
+      env:
+        CONFIG_FILE: '.config'
       run: |
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
-        chmod +x $CONFIG_FILE
-        ./$CONFIG_FILE
+        chmod +x ./customize.sh && ./customize.sh
+        cd openwrt && make defconfig
 
     - name: Download package
       run: |
