@@ -140,7 +140,7 @@ jobs:
       with:
         name: ${{ env.DATE }} for ${{ env.FILE_NAME }}
         allowUpdates: true
-        tag: ${{ env.FILE_NAME }}
+        tag: ${{ env. PRODUCT_NAME }}
         commit: main
         token: ${{ secrets.GH_TOKEN }}
         body: |
