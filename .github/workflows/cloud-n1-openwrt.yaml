@@ -157,6 +157,14 @@ jobs:
             默认IP：192.168.1.10 用户名：root 默认密码：password
         artifacts: "${{ env.FIRMWARE }}/*,${{ env.PACKAGED_OUTPUTPATH }}/*"
 
+    - name: Delete workflow runs
+      uses: GitRML/delete-workflow-runs@main
+      with:
+        token: ${{ secrets.GH_TOKEN }}
+        repository: ${{ github.repository }}
+        retain_days: 60
+        keep_minimum_runs: 60
+ 
     - name: Remove old Releases
       uses: dev-drprasad/delete-older-releases@v0.1.0
       with:
