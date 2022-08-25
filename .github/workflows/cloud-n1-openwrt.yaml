@@ -136,11 +136,14 @@ jobs:
             ${{ env.PACKAGED_OUTPUTPATH }}
 
     - name: Upload OpenWrt Firmware to Release
+      id: release
       uses: ncipollo/release-action@v1
+      if: env.PACKAGED_STATUS == 'success' && env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
         name: ${{ env.DATE }} for ${{ env.FILE_NAME }}
         allowUpdates: true
-        tag: ${{ env. PRODUCT_NAME }}
+        removeArtifacts: true
+        tag: ${{ env.FILE_NAME }}
         commit: main
         token: ${{ secrets.GH_TOKEN }}
         body: |
