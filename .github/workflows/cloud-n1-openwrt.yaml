@@ -20,7 +20,7 @@ env:
   #CONFIG_SH: config.sh
   UPLOAD_FIRMWARE: true
   TZ: Asia/Shanghai
-  FILE_NAME: OpenWrt_N1
+  FILE_NAME: ARMv8
   PRODUCT_NAME: ARMv8
   KERNEL_VERSION: 5.4.210_5.15.62_5.19.3
 
@@ -136,25 +136,22 @@ jobs:
             ${{ env.PACKAGED_OUTPUTPATH }}
 
     - name: Upload OpenWrt Firmware to Release
-      uses: ncipollo/release-action@main
-      if: env.PACKAGED_STATUS == 'success' && !cancelled()
+      uses: ncipollo/release-action@v1
       with:
-        name: R${{ env.DATE }} for ${{ env.FILE_NAME }}      
+        name: ${{ env.DATE }} for OpenWrt-N1
         allowUpdates: true
-        removeArtifacts: true
-        tag: ${{ env.FILE_NAME }}   
+        tag: ${{ env.FILE_NAME }}
         commit: main
-        token: ${{ secrets.GH_TOKEN }
         artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
         body: |
           编译使用版本:
           ${{ env.useVersionInfo }}
           
-          刷机固件简介：
-            打包日期：${{ env.PACKAGED_OUTPUTDATE }}
-            内核版本：${{ env.KERNEL_VERSION }}
-            当前使用版本:【编译前的最后一次➦[主源码](https://github.com/coolsnowwolf/lede)更新记录】
-            默认IP：192.168.1.10 用户名：root 默认密码：password
+          固件简介：
+          - 打包日期：${{ env.PACKAGED_OUTPUTDATE }}
+          - 内核版本：${{ env.KERNEL_VERSION }}
+          - 当前使用版本:【编译前的最后一次➦[主源码](https://github.com/coolsnowwolf/lede)更新记录】
+          - 默认IP：192.168.1.10 用户名：root 默认密码：password
         
     - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main
