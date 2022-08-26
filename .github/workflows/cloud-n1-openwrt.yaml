@@ -144,7 +144,6 @@ jobs:
         removeArtifacts: true
         tag: ${{ env.FILE_NAME }}        
         token: ${{ secrets.GH_TOKEN }
-        artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
         body: |
           编译使用版本:
           ${{ env.useVersionInfo }}
@@ -154,7 +153,8 @@ jobs:
             内核版本：${{ env.KERNEL_VERSION }}
             当前使用版本:【编译前的最后一次➦[主源码](https://github.com/coolsnowwolf/lede)更新记录】
             默认IP：192.168.1.10 用户名：root 默认密码：password
-
+        artifacts: "${{ env.FIRMWARE }}/*,${{ env.PACKAGED_OUTPUTPATH }}/*"
+        
     - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main
       with:
