@@ -126,14 +126,14 @@ jobs:
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
 
-    #- name: Upload firmware directory
-      #uses: actions/upload-artifact@v3
-      #if: steps.organize.outputs.status == 'success' && !cancelled()
-      #with:
-        #name: OpenWrt_firmware
-        #path: |
-            #${{ env.FIRMWARE }}
-            #${{ env.PACKAGED_OUTPUTPATH }}
+    - name: Upload firmware directory
+      uses: actions/upload-artifact@v3
+      if: steps.organize.outputs.status == 'success' && !cancelled()
+      with:
+        name: OpenWrt_firmware
+        path: |
+            ${{ env.FIRMWARE }}
+            ${{ env.PACKAGED_OUTPUTPATH }}
 
     - name: Upload OpenWrt Firmware to Release
       uses: ncipollo/release-action@v1
@@ -152,7 +152,7 @@ jobs:
             内核版本：${{ env.KERNEL_VERSION }}
             当前使用版本:【编译前的最后一次➦[主源码](https://github.com/coolsnowwolf/lede)更新记录】
             默认IP：192.168.1.10 用户名：root 默认密码：password
-        artifacts: "${{ env.FIRMWARE }}/*,${{ env.PACKAGED_OUTPUTPATH }}/*"   
+        artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*   
         
     - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main
@@ -165,7 +165,7 @@ jobs:
     - name: Remove old Releases
       uses: dev-drprasad/delete-older-releases@v0.1.0
       with:
-        keep_latest: 3
+        keep_latest: 5
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
