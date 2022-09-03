@@ -22,7 +22,7 @@ env:
   TZ: Asia/Shanghai
   FILE_NAME: ARMv8
   PRODUCT_NAME: ARMv8
-  KERNEL_VERSION: 5.4.210_5.15.62_5.19.3
+  KERNEL_VERSION: 5.15.64_5.19.6
 
 jobs:
   build_openwrt:
@@ -138,12 +138,12 @@ jobs:
     - name: Upload OpenWrt Firmware to Release
       uses: ncipollo/release-action@v1
       with:
-        name: ${{ env.DATE }} for OpenWrt-N1
+        name: R${{ env.DATE }} for OpenWrt-N1
         allowUpdates: true
         tag: ${{ env.FILE_NAME }}
         commit: main
         token: ${{ secrets.GH_TOKEN }}
-        artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
+        artifacts: "${{ env.FIRMWARE }}/*,${{ env.PACKAGED_OUTPUTPATH }}/*"
         body: |
           编译使用版本:
           ${{ env.useVersionInfo }}
