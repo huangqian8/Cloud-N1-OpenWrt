@@ -113,7 +113,7 @@ jobs:
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
         PACKAGE_SOC: s905d
         KERNEL_VERSION_NAME: ${{ env.KERNEL_VERSION }}
-        WHOAMI: breakings
+        WHOAMI: flippy
         KERNEL_AUTO_LATEST: true
         GZIP_IMGS: .gz        
 
