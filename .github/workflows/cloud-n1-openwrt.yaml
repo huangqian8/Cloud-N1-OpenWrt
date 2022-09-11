@@ -11,11 +11,11 @@ on:
   #  branches: 
   #    - master
 
-  #schedule:
-  #  - cron: 0 0 * * 6
+  schedule:
+    - cron: 0 0 * * 6
   
-  watch:
-    types: [started]       
+  #watch:
+  #  types: [started]       
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
