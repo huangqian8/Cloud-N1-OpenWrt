@@ -147,12 +147,13 @@ jobs:
         name: ${{ env.DATE }} for ${{ env.FILE_NAME }}
         allowUpdates: true
         removeArtifacts: true
-        tag: ${{ env.PRODUCT_NAME }}
+        tag: ${{ env.PRODUCT_NAME }}_${{ env.tag_name }}
         commit: main
         token: ${{ secrets.GITHUB_TOKEN }}
         artifacts: ${{ env.PACKAGED_OUTPUTPATH }}/*
         body: |
           编译固件简介:
+          ${{ env.useVersionInfo }}
             打包日期：${{ env.PACKAGED_OUTPUTDATE }}
             当前使用版本:【编译前的最后一次➦[主源码](https://github.com/coolsnowwolf/lede)更新记录】
             默认IP：192.168.1.10 用户名：root 默认密码：password
