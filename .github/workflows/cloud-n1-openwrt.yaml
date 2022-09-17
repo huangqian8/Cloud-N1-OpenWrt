@@ -135,7 +135,7 @@ jobs:
           刷机固件简介：
             打包日期：${{ env.PACKAGED_OUTPUTDATE }}
             内核版本：${{ env.KERNEL_VERSION }}
-            默认IP：192.168.2.2 默认用户名密码： root/password
+            默认IP：192.168.1.1 默认用户名密码： root/password
         artifacts: "${{ env.FIRMWARE }}/*,${{ env.PACKAGED_OUTPUTPATH }}/*"
 
     - name: Remove old Releases

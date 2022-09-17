@@ -1,8 +1,10 @@
 #!/bin/bash
 cd openwrt
-# wireless
-#rm -rf files/etc/config/wireless
-#rm -rf files/etc/modules.d/wireless_enable
+# Add luci-app-adguardhome
+git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package-temp/luci-app-adguardhome
+mv -f package-temp/luci-app-adguardhome package/lean/
+rm -rf package-temp
+
 # Add luci-app-openclash
 git clone https://github.com/vernesong/OpenClash.git package-temp
 mv -f package-temp/luci-app-openclash package/lean/
