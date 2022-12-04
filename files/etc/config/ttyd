@@ -1,0 +1,4 @@
+
+config ttyd
+	option interface '@lan'
+	option command '/bin/login -f root'
