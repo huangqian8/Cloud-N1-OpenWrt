@@ -28,7 +28,7 @@ env:
   TZ: Asia/Shanghai
   FILE_NAME: Openwrt-N1
   PRODUCT_NAME: ARMv8
-  KERNEL_VERSION: 5.15.64_5.19.6
+  KERNEL_VERSION: 5.15.85_6.0.15
 
 jobs:
   build_openwrt:
