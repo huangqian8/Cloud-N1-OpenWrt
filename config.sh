@@ -22,6 +22,7 @@ CONFIG_KERNEL_FS_POSIX_ACL=y
 CONFIG_KERNEL_NET_CLS_CGROUP=y
 CONFIG_LIBSODIUM_MINIMAL=y
 CONFIG_PACKAGE_MAC80211_DEBUGFS=y
+CONFIG_PACKAGE_alist=y
 CONFIG_PACKAGE_MAC80211_MESH=y
 CONFIG_PACKAGE_TAR_BZIP2=y
 CONFIG_PACKAGE_TAR_GZIP=y
@@ -141,6 +142,7 @@ CONFIG_PACKAGE_luci-app-dockerman=y
 # CONFIG_PACKAGE_luci-app-filetransfer is not set
 CONFIG_PACKAGE_luci-app-openclash=y
 CONFIG_PACKAGE_luci-app-ramfree=y
+CONFIG_PACKAGE_luci-app-alist=y
 # CONFIG_PACKAGE_luci-app-rclone_INCLUDE_rclone-ng is not set
 # CONFIG_PACKAGE_luci-app-rclone_INCLUDE_rclone-webui is not set
 # CONFIG_PACKAGE_luci-app-turboacc is not set
@@ -157,6 +159,7 @@ CONFIG_PACKAGE_luci-app-zerotier=y
 CONFIG_PACKAGE_luci-i18n-amlogic-zh-cn=y
 CONFIG_PACKAGE_luci-i18n-docker-zh-cn=y
 CONFIG_PACKAGE_luci-i18n-dockerman-zh-cn=y
+CONFIG_PACKAGE_luci-i18n-alist-zh-cn=y
 CONFIG_PACKAGE_luci-i18n-ramfree-zh-cn=y
 CONFIG_PACKAGE_luci-i18n-vssr-zh-cn=y
 CONFIG_PACKAGE_luci-i18n-zerotier-zh-cn=y
