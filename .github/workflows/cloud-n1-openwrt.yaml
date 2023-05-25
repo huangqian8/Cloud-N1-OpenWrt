@@ -18,7 +18,7 @@ env:
   CONFIG_SH: config.sh
   UPLOAD_FIRMWARE: true
   TZ: Asia/Shanghai
-  KERNEL_VERSION: 6.1.10
+  KERNEL_VERSION: 6.1.29
 
 jobs:
   build_openwrt:
@@ -133,7 +133,7 @@ jobs:
         body: |
           编译使用版本:
           ${{ env.useVersionInfo }}
-          
+
           刷机固件简介：
             打包日期：${{ env.PACKAGED_OUTPUTDATE }}
             内核版本：${{ env.KERNEL_VERSION }}

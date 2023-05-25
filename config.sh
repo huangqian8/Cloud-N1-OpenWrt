@@ -50,6 +50,7 @@ CONFIG_PACKAGE_TAR_BZIP2=y
 CONFIG_PACKAGE_TAR_GZIP=y
 CONFIG_PACKAGE_TAR_XZ=y
 CONFIG_PACKAGE_TAR_ZSTD=y
+CONFIG_PACKAGE_aliyundrive-webdav=y
 CONFIG_PACKAGE_attr=y
 CONFIG_PACKAGE_bash=y
 CONFIG_PACKAGE_blkid=y
@@ -64,6 +65,7 @@ CONFIG_PACKAGE_bzip2=y
 CONFIG_PACKAGE_cgroupfs-mount=y
 CONFIG_PACKAGE_chattr=y
 CONFIG_PACKAGE_containerd=y
+CONFIG_PACKAGE_coreutils-nohup=y
 CONFIG_PACKAGE_docker=y
 CONFIG_PACKAGE_dockerd=y
 CONFIG_PACKAGE_dosfstools=y
@@ -134,9 +136,12 @@ CONFIG_PACKAGE_libarchive=y
 CONFIG_PACKAGE_libattr=y
 CONFIG_PACKAGE_libbz2=y
 CONFIG_PACKAGE_libcap=y
+CONFIG_PACKAGE_libcap-bin=y
+CONFIG_PACKAGE_libcap-bin-capsh-shell="/bin/sh"
 CONFIG_PACKAGE_libdevmapper=y
 CONFIG_PACKAGE_libexpat=y
 CONFIG_PACKAGE_libfdisk=y
+CONFIG_PACKAGE_libgmp=y
 CONFIG_PACKAGE_liblzma=y
 CONFIG_PACKAGE_liblzo=y
 CONFIG_PACKAGE_libmaxminddb=y
@@ -148,10 +153,12 @@ CONFIG_PACKAGE_libncurses=y
 CONFIG_PACKAGE_libnetwork=y
 CONFIG_PACKAGE_libparted=y
 CONFIG_PACKAGE_libreadline=y
+CONFIG_PACKAGE_libruby=y
 CONFIG_PACKAGE_libseccomp=y
 CONFIG_PACKAGE_libstdcpp=y
 CONFIG_PACKAGE_libuv=y
 CONFIG_PACKAGE_libwebsockets-full=y
+CONFIG_PACKAGE_libyaml=y
 CONFIG_PACKAGE_libzstd=y
 CONFIG_PACKAGE_losetup=y
 CONFIG_PACKAGE_lsattr=y
@@ -160,6 +167,8 @@ CONFIG_PACKAGE_lua-cjson=y
 CONFIG_PACKAGE_lua-maxminddb=y
 CONFIG_PACKAGE_luasocket=y
 # CONFIG_PACKAGE_luci-app-accesscontrol is not set
+CONFIG_PACKAGE_luci-app-adguardhome=y
+CONFIG_PACKAGE_luci-app-aliyundrive-webdav=y
 CONFIG_PACKAGE_luci-app-amlogic=y
 # CONFIG_PACKAGE_luci-app-arpbind is not set
 # CONFIG_PACKAGE_luci-app-bypass_INCLUDE_ShadowsocksR_Libev_Client is not set
@@ -173,6 +182,7 @@ CONFIG_PACKAGE_luci-app-amlogic=y
 # CONFIG_PACKAGE_luci-app-ddns is not set
 CONFIG_PACKAGE_luci-app-docker=y
 CONFIG_PACKAGE_luci-app-dockerman=y
+CONFIG_PACKAGE_luci-app-openclash=y
 CONFIG_PACKAGE_luci-app-openvpn-server=y
 # CONFIG_PACKAGE_luci-app-rclone_INCLUDE_rclone-ng is not set
 # CONFIG_PACKAGE_luci-app-rclone_INCLUDE_rclone-webui is not set
@@ -192,6 +202,7 @@ CONFIG_PACKAGE_luci-app-vssr_INCLUDE_Kcptun=y
 # CONFIG_PACKAGE_luci-app-vssr_INCLUDE_ShadowsocksR_Libev_Server is not set
 CONFIG_PACKAGE_luci-app-webadmin=y
 CONFIG_PACKAGE_luci-app-zerotier=y
+CONFIG_PACKAGE_luci-i18n-aliyundrive-webdav-zh-cn=y
 CONFIG_PACKAGE_luci-i18n-amlogic-zh-cn=y
 CONFIG_PACKAGE_luci-i18n-docker-zh-cn=y
 CONFIG_PACKAGE_luci-i18n-dockerman-zh-cn=y
@@ -245,6 +256,17 @@ CONFIG_PACKAGE_perlbase-utf8=y
 CONFIG_PACKAGE_perlbase-xsloader=y
 CONFIG_PACKAGE_pigz=y
 CONFIG_PACKAGE_pv=y
+CONFIG_PACKAGE_ruby=y
+CONFIG_PACKAGE_ruby-bigdecimal=y
+CONFIG_PACKAGE_ruby-date=y
+CONFIG_PACKAGE_ruby-digest=y
+CONFIG_PACKAGE_ruby-enc=y
+CONFIG_PACKAGE_ruby-forwardable=y
+CONFIG_PACKAGE_ruby-pstore=y
+CONFIG_PACKAGE_ruby-psych=y
+CONFIG_PACKAGE_ruby-stringio=y
+CONFIG_PACKAGE_ruby-strscan=y
+CONFIG_PACKAGE_ruby-yaml=y
 CONFIG_PACKAGE_runc=y
 CONFIG_PACKAGE_shadowsocks-libev-ss-local=y
 CONFIG_PACKAGE_shadowsocks-libev-ss-redir=y
@@ -254,6 +276,7 @@ CONFIG_PACKAGE_terminfo=y
 CONFIG_PACKAGE_tini=y
 CONFIG_PACKAGE_trojan=y
 CONFIG_PACKAGE_ttyd=y
+CONFIG_PACKAGE_unzip=y
 CONFIG_PACKAGE_uuidgen=y
 CONFIG_PACKAGE_wireless-regdb=y
 CONFIG_PACKAGE_wpa-cli=y
@@ -268,9 +291,10 @@ CONFIG_PARTED_READLINE=y
 CONFIG_PERL_NOCOMMENT=y
 CONFIG_PERL_THREADS=y
 # CONFIG_TARGET_ROOTFS_CPIOGZ is not set
+# CONFIG_TARGET_ROOTFS_EXT4FS is not set
 # CONFIG_TARGET_ROOTFS_INITRAMFS is not set
 CONFIG_TARGET_ROOTFS_PARTSIZE=512
-# CONFIG_VMDK_IMAGES is not set
+# CONFIG_TARGET_ROOTFS_SQUASHFS is not set
 CONFIG_WPA_MSG_MIN_PRIORITY=3
 CONFIG_ZSTD_OPTIMIZE_O3=y
 CONFIG_boost-compile-visibility-hidden=y
@@ -280,8 +304,14 @@ CONFIG_boost-variant-release=y
 CONFIG_PACKAGE_chinadns-ng=y
 CONFIG_PACKAGE_dns2socks=y
 CONFIG_PACKAGE_dns2tcp=y
+CONFIG_PACKAGE_grub2-efi-arm=y
+CONFIG_PACKAGE_kmod-fs-vfat=y
+# CONFIG_PACKAGE_kmod-inet-diag is not set
 CONFIG_PACKAGE_kmod-ipt-offload=y
 CONFIG_PACKAGE_kmod-nf-flow=y
+CONFIG_PACKAGE_kmod-nls-cp437=y
+CONFIG_PACKAGE_kmod-nls-iso8859-1=y
+CONFIG_PACKAGE_kmod-nls-utf8=y
 CONFIG_PACKAGE_kmod-tcp-bbr=y
 CONFIG_PACKAGE_lua-neturl=y
 # CONFIG_PACKAGE_luci-app-turboacc_INCLUDE_SHORTCUT_FE_CM is not set
