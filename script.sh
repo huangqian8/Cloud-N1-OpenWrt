@@ -2,9 +2,9 @@
 cd openwrt
 
 # Add luci-app-adguardhome
-git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package-temp/luci-app-adguardhome
-mv -f package-temp/luci-app-adguardhome package/lean/
-rm -rf package-temp
+#git clone https://github.com/rufengsuixing/luci-app-adguardhome.git package-temp/luci-app-adguardhome
+#mv -f package-temp/luci-app-adguardhome package/lean/
+#rm -rf package-temp
 
 # Add luci-app-openclash
 git clone https://github.com/vernesong/OpenClash.git package-temp
@@ -30,6 +30,6 @@ mv -f package-temp/luci-app-vssr package/lean/
 rm -rf package-temp
 
 # Add luci-app-amlogic
-git clone https://github.com/ophub/luci-app-amlogic.git  package-temp/luci-app-amlogic
-mv -f package-temp/luci-app-amlogic/luci-app-amlogic package/lean/
-rm -rf package-temp
+#git clone https://github.com/ophub/luci-app-amlogic.git  package-temp/luci-app-amlogic
+#mv -f package-temp/luci-app-amlogic/luci-app-amlogic package/lean/
+#rm -rf package-temp
