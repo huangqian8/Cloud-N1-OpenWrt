@@ -1,6 +1,7 @@
 # 云编译 N1 OpenWrt 固件
 
 **更新日志**
+- 20231015 更新内核版本 6.1.57，集成 `PassWall`
 - 20231013 更新截图
 - 20231009 更新内核版本 6.1.56
 - 20230915 修正 Github Action 空间不足导致的打包失败，更新内核版本 6.1.52
@@ -36,6 +37,7 @@
   - [x] 编译 `aliyundrive-webdav`
   - [x] 编译 `Docker`
   - [x] 编译 `OpenVPN Server`
+  - [x] 编译 `PassWall`
   - [x] 编译 `ZeroTier`
   - [x] 添加主题 `opentomacat` 并设置为默认
   - [x] 添加第三方插件 `luci-app-adguardhome`
@@ -55,7 +57,7 @@
 
 **界面截图**：
 
-![N1_OpenWRT.png](https://github.com/huangqian8/Cloud-N1-OpenWrt/blob/main/snapshot.png)
+![N1_OpenWRT.png](https://github.com/huangqian8/Cloud-N1-OpenWrt/blob/main/snapshot.jpeg)
 
 ## 感谢 ❤️
 - 源码来源： Lean 的 Openwrt 源码仓库 https://github.com/coolsnowwolf/lede
