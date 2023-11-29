@@ -18,7 +18,7 @@ env:
   CONFIG_SH: config.sh
   UPLOAD_FIRMWARE: true
   TZ: Asia/Shanghai
-  KERNEL_VERSION: 6.1.57
+  KERNEL_VERSION: 6.1.63
 
 jobs:
   build_openwrt:
@@ -33,7 +33,7 @@ jobs:
         # this might remove tools that are actually needed,
         # if set to "true" but frees about 6 GB
         tool-cache: true
-        
+
         # all of these default to true, but feel free to set to
         # "false" if necessary for your workflow
         android: true
