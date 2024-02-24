@@ -2,34 +2,52 @@
 
 **说明**：
 - 本项目使用 Github Actions 下载 [Lean](https://github.com/coolsnowwolf/lede) 的 `Openwrt` 源码仓库，进行云编译。
-- 本项目使用定时编译（北京时间每周日下午4点开始自动运行编译）及触发编译（更新 `README.md`、 `script.sh`、 `config.sh`后可开始编译）两种方式。
+- 本项目使用定时编译（北京时间每周日下午4点开始运行编译）及触发编译（更新 `README.md`、 `script.sh`、 `config.sh`后可开始编译）两种方式。
 - 本项目编译固件适配斐讯 N1 盒子，如需刷机，可直接下载 [releases](https://github.com/huangqian8/Cloud-N1-OpenWrt/releases/latest) 内固件。
-- 本项目相对源码默认设置做了如下更改：
+- 本项目编译配置如下：
 
-**增强项**：（**打勾项**默认**编译**入固件；**未打勾项**默认**不编译**入固件。具体功能详见截图。）
+**添加编译**（默认未勾选，自选！）
   - [x] 修改架构适配斐讯 N1 盒子
-  - [x] 添加 `Perl` 依赖
-  - [x] 编译 `aliyundrive-webdav`
-  - [x] 编译 `Docker`
-  - [x] 编译 `OpenVPN Server`
-  - [x] 编译 `PassWall`
-  - [x] 编译 `Wireguard`
-  - [x] 添加主题 `opentomacat` 并设置为默认
-  - [x] 添加第三方插件 `luci-app-adguardhome`
-  - [x] 添加第三方插件 `luci-app-amlogic`
-  - [x] 添加第三方插件 `luci-app-openclash`
+    - [x] Target System —— QEMU ARM Virtual Machine
+    - [x] Subtarget —— 64-bit ARM machines
+  - [x] `luci-app-docker`
+  - [x] `luci-app-dockerman`
+  - [x] `luci-theme-opentomcat`
+  - [x] `luci-app-adguardhome`
+  - [x] `luci-app-amlogic`
 
-**精简项**：
-  - [x] luci-app-accesscontrol
-  - [x] luci-app-arpbind
-  - [x] luci-app-ddns
-  - [x] luci-app-filetransfer
-  - [x] luci-app-rclone
-  - [x] luci-app-turboacc
-  - [x] luci-app-upnp
-  - [x] luci-app-vsftpd
+**默认编译**（默认勾选，未取消！）
+  - [x] `luci-app-autoreboot`
+  - [x] `luci-app-filetransfer`
+  - [x] `luci-app-nlbwmon`
+  - [x] `luci-app-ssr-plus`
+    - [x] `Include ChinaDNS-NG`
+    - [x] `Include MosDNS`
+    - [x] `Include Shadowsocks Simple Obfs Plugin`
+    - [x] `Include ShadowsocksR Libev Client`
+  - [x] `luci-app-vlmcsd`
+  - [x] `luci-app-wol`
 
-**更新日志**:
+**强制编译**（默认勾选，无法取消！）
+  - [x] `luci-app-firewall`
+
+**精简编译**（默认勾选，取消！）
+  - [x] `luci-app-accesscontrol`
+  - [x] `luci-app-arpbind`
+  - [x] `luci-app-ddns`
+  - [x] `Include rclone-webui`
+  - [x] `Include rclone-ng (another webui)`
+  - [x] `luci-app-turboacc`
+    - [x] `Include Flow Offload`
+    - [x] `Include Shortcut-FE CM`
+    - [x] `Include BBR CCA`
+    - [x] `Include Pdnsd`
+  - [x] `UnblockNeteaseMusic Golang Version`
+  - [x] `luci-app-upnp`
+  - [x] `luci-app-vsftpd`
+
+**更新日志**
+- 20240224 更新配置
 - 20231129 更新内核版本 6.1.63，删除失效的插件
 - 20231015 更新内核版本 6.1.57，集成 `PassWall`
 - 20231013 更新截图
@@ -55,9 +73,9 @@
 - 20200926 修正 `openclash` 编译错误
 - 20200727 `docker` 兼容性造成编译错误，暂不集成
 
-**界面截图**：
+**界面截图**
 
-![N1_OpenWRT.png](https://github.com/huangqian8/Cloud-N1-OpenWrt/blob/main/snapshot.jpeg)
+![N1_OpenWRT.png](https://github.com/huangqian8/Cloud-N1-OpenWrt/blob/main/snapshot.png)
 
 ## 感谢 ❤️
 - 源码来源： Lean 的 Openwrt 源码仓库 https://github.com/coolsnowwolf/lede
