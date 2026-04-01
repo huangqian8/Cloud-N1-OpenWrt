@@ -1,4 +1,6 @@
 #!/bin/bash
+# 禁用 ksmbd，避免内核 6.12 与 ksmbd 3.5.4 不兼容
+echo 'CONFIG_PACKAGE_kmod-ksmbd=n' >> .config
 cd openwrt
 cat >> .config <<EOF
 CONFIG_TARGET_armvirt=y
