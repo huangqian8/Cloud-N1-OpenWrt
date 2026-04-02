@@ -1,7 +1,8 @@
 #!/bin/bash
 cd openwrt
 # 禁用 ksmbd，避免内核 6.12 与 ksmbd 3.5.4 不兼容
-# ksmbd 是内核模块 (CONFIG_KMOD_FS_KSMBD)，不是普通 package
+# 直接删除 ksmbd 目录，从根源上解决
+rm -rf package/kernel/ksmbd
 cat >> .config <<EOF
 CONFIG_KMOD_FS_KSMBD=n
 CONFIG_PACKAGE_kmod-fs-ksmbd=n
