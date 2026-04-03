@@ -1,11 +1,13 @@
 #!/bin/bash
 cd openwrt
-# 禁用 ksmbd，避免内核 6.12 与 ksmbd 3.5.4 不兼容
-# 直接删除 ksmbd 目录，从根源上解决
+# 禁用 ksmbd 及相关包，避免内核 6.12 与 ksmbd 3.5.4 不兼容
+# ksmbd-server 和 autosamba 依赖 kmod-fs-ksmbd，必须一起禁用
 rm -rf package/kernel/ksmbd
 cat >> .config <<EOF
 CONFIG_KMOD_FS_KSMBD=n
 CONFIG_PACKAGE_kmod-fs-ksmbd=n
+CONFIG_PACKAGE_ksmbd-server=n
+CONFIG_PACKAGE_autosamba=n
 CONFIG_TARGET_armvirt=y
 CONFIG_TARGET_armvirt_64=y
 CONFIG_TARGET_armvirt_64_DEVICE_generic=y
