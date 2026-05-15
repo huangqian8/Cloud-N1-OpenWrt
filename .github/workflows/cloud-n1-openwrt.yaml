@@ -18,7 +18,9 @@ env:
   CONFIG_SH: config.sh
   UPLOAD_FIRMWARE: true
   TZ: Asia/Shanghai
-  KERNEL_VERSION: 6.1.79
+  KERNEL_VERSION: 6.1.y
+  KERNEL_REPO_URL: breakingbadboy/OpenWrt
+  KERNEL_TAG: stable
 
 jobs:
   build_openwrt:
@@ -117,12 +119,37 @@ jobs:
         rm -rf ./build_dir
         echo "status=success" >> $GITHUB_OUTPUT
 
+    - name: Resolve latest kernel version
+      if: steps.compile.outputs.status == 'success' && !cancelled()
+      run: |
+        if [[ ! "$KERNEL_VERSION" =~ \.y$ ]]; then
+          echo "Using fixed kernel version: $KERNEL_VERSION"
+          echo "RESOLVED_KERNEL_VERSION=$KERNEL_VERSION" >> $GITHUB_ENV
+          exit 0
+        fi
+
+        kernel_series="$(echo "$KERNEL_VERSION" | awk -F '.' '{print $1"."$2}')"
+        kernel_regex="${kernel_series//./\\.}"
+        kernel_api="https://github.com/${KERNEL_REPO_URL}/releases/expanded_assets/kernel_${KERNEL_TAG}"
+        latest_version="$(curl -fsSL "$kernel_api" | grep -oP "(?<=[/>])${kernel_regex}\.[0-9]+(?=\.tar\.gz)" | sort -urV | head -n 1)"
+
+        if [[ -z "$latest_version" ]]; then
+          echo "Unable to resolve latest kernel version from $kernel_api"
+          exit 1
+        fi
+
+        echo "Resolved latest kernel version: $latest_version"
+        echo "KERNEL_VERSION=$latest_version" >> $GITHUB_ENV
+        echo "RESOLVED_KERNEL_VERSION=$latest_version" >> $GITHUB_ENV
+
     - name: Package Armvirt as OpenWrt
       uses: ophub/flippy-openwrt-actions@main
       env:
         OPENWRT_ARMVIRT: openwrt/bin/targets/*/*/*.tar.gz
         PACKAGE_SOC: s905d
+        KERNEL_REPO_URL: ${{ env.KERNEL_REPO_URL }}
         KERNEL_VERSION_NAME: ${{ env.KERNEL_VERSION }}
+        KERNEL_AUTO_LATEST: false
         WHOAMI: huangqian8
 
     - name: Organize files
