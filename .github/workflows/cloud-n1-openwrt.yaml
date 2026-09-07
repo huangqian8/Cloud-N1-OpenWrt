@@ -81,9 +81,12 @@ jobs:
         cd openwrt
         echo "src-git helloworld https://github.com/fw876/helloworld.git" >> "feeds.conf.default"
         ./scripts/feeds update -a
-        cat feeds/packages/utils/xfsprogs/Makefile
-        sed -i 's/TARGET_CFLAGS += -DHAVE_MAP_SYNC/TARGET_CFLAGS += -DHAVE_MAP_SYNC -D_LARGEFILE64_SOURCE/' feeds/packages/utils/xfsprogs/Makefile
-        ./scripts/feeds update -a
+        xfsprogs_makefile="feeds/packages/utils/xfsprogs/Makefile"
+        if [[ -f "$xfsprogs_makefile" ]]; then
+          sed -i 's/TARGET_CFLAGS += -DHAVE_MAP_SYNC/TARGET_CFLAGS += -DHAVE_MAP_SYNC -D_LARGEFILE64_SOURCE/' "$xfsprogs_makefile"
+        else
+          echo "xfsprogs feed is unavailable; skipping legacy compiler flag adjustment"
+        fi
 
     - name: Install feeds
       run: |
