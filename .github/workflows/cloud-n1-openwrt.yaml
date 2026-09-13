@@ -76,7 +76,9 @@ jobs:
 
     - name: Update feeds
       run: |
-        [ -e files ] && mv files openwrt/files
+        if [[ -e files ]]; then
+          mv files openwrt/files
+        fi
         chmod +x $SCRIPT_SH
         ./$SCRIPT_SH
         cd openwrt
