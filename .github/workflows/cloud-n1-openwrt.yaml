@@ -31,6 +31,7 @@ jobs:
 
     - name: Free Disk Space (Ubuntu)
       uses: jlumbroso/free-disk-space@v1.3.1
+      continue-on-error: true
       with:
         # this might remove tools that are actually needed,
         # if set to "true" but frees about 6 GB
@@ -80,7 +81,11 @@ jobs:
         ./$SCRIPT_SH
         cd openwrt
         echo "src-git helloworld https://github.com/fw876/helloworld.git" >> "feeds.conf.default"
-        ./scripts/feeds update -a
+        for attempt in 1 2 3; do
+          ./scripts/feeds update -a && break
+          [[ "$attempt" -eq 3 ]] && exit 1
+          sleep 10
+        done
         xfsprogs_makefile="feeds/packages/utils/xfsprogs/Makefile"
         if [[ -f "$xfsprogs_makefile" ]]; then
           sed -i 's/TARGET_CFLAGS += -DHAVE_MAP_SYNC/TARGET_CFLAGS += -DHAVE_MAP_SYNC -D_LARGEFILE64_SOURCE/' "$xfsprogs_makefile"
