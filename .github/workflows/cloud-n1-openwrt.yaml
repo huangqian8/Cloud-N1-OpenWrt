@@ -82,12 +82,20 @@ jobs:
         chmod +x $SCRIPT_SH
         ./$SCRIPT_SH
         cd openwrt
-        echo "src-git helloworld https://github.com/fw876/helloworld.git" >> "feeds.conf.default"
+        if ! grep -qE '^src-git[[:space:]]+helloworld([[:space:]]|$)' feeds.conf.default; then
+          echo "src-git helloworld https://github.com/fw876/helloworld.git" >> "feeds.conf.default"
+        fi
         for attempt in 1 2 3; do
           ./scripts/feeds update -a && break
           [[ "$attempt" -eq 3 ]] && exit 1
           sleep 10
         done
+        luci_config="feeds/luci/modules/luci-base/root/etc/config/luci"
+        if [[ -f "$luci_config" ]]; then
+          sed -i 's/bootstrap/opentomcat/g' "$luci_config"
+        else
+          echo "LuCI config is unavailable; skipping default theme adjustment"
+        fi
         xfsprogs_makefile="feeds/packages/utils/xfsprogs/Makefile"
         if [[ -f "$xfsprogs_makefile" ]]; then
           sed -i 's/TARGET_CFLAGS += -DHAVE_MAP_SYNC/TARGET_CFLAGS += -DHAVE_MAP_SYNC -D_LARGEFILE64_SOURCE/' "$xfsprogs_makefile"
