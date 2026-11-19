@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 cd openwrt
 
 clone_retry() {
