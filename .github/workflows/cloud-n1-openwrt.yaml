@@ -238,7 +238,36 @@ jobs:
       if: success() && steps.release.outcome == 'success'
       uses: dev-drprasad/delete-older-releases@v0.3.4
       with:
-        keep_latest: 3
+        keep_latest: 5
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.actions_release }}
+
+  prune_runs:
+    name: Clean up previous build runs
+    needs: build_openwrt
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Keep five successful builds and remove older unsuccessful runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          api="repos/$GITHUB_REPOSITORY/actions"
+          snapshot="$RUNNER_TEMP/build-runs.json"
+          gh api --paginate --slurp "$api/workflows/cloud-n1-openwrt.yaml/runs?per_page=100" > "$snapshot"
+
+          # The current successful build occupies one of the five slots.
+          # Leave newer runs and unfinished builds alone.
+          jq -r --argjson current "$GITHUB_RUN_NUMBER" '
+            [.[].workflow_runs[] | select(.run_number < $current and .status == "completed")]
+            | sort_by(.run_number) | reverse
+            | (map(select(.conclusion == "success"))[4:] +
+               map(select(.conclusion != "success")))[] | .id
+          ' "$snapshot" > "$RUNNER_TEMP/obsolete-runs"
+          while read -r id; do
+            gh api --method DELETE "$api/runs/$id"
+          done < "$RUNNER_TEMP/obsolete-runs"
