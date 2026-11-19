@@ -10,6 +10,10 @@
 - **推送编译**　向 `main` 推送对 `script.sh`、`config.sh`、`.github/workflows/cloud-n1-openwrt.yaml` 或 `files/` 下文件的修改时触发。
 - **手动编译**　在 Actions 页面选择 **Cloud N1 OpenWrt**，点击 **Run workflow**。
 
+## 构建记录保留规则
+
+保留最近 5 个 Release 和最近 5 次成功构建记录。连续失败时，保留每次失败的日志供排查。下一次构建成功后，自动清理此前已结束的失败或取消记录。
+
 ## 固件配置
 
 编译目标为 QEMU ARM Virtual Machine，子目标为 64-bit ARM machines。完整编译选项见 [config.sh](config.sh)。
