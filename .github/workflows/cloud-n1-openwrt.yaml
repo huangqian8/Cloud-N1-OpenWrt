@@ -157,6 +157,23 @@ jobs:
             exit 1
           fi
         done
+        # GitHub serves the same release snapshot as git.kernel.org for 1.8.10.
+        erofs_recipe=tools/erofs-utils/Makefile
+        if grep -Fxq 'PKG_VERSION:=1.8.10' "$erofs_recipe"; then
+          archive=erofs-utils-1.8.10.tar.gz
+          expected=$(sed -n 's/^PKG_HASH:=//p' "$erofs_recipe")
+          mkdir -p dl
+          if curl -fsSL --retry 3 --retry-all-errors --max-time 60 \
+              https://codeload.github.com/erofs/erofs-utils/tar.gz/refs/tags/v1.8.10 \
+              -o "dl/$archive.tmp" && \
+              echo "$expected  dl/$archive.tmp" | sha256sum --check --status; then
+            mv "dl/$archive.tmp" "dl/$archive"
+          else
+            rm -f "dl/$archive.tmp"
+            echo "::warning::GitHub snapshot unavailable or hash mismatch; using LEDE mirrors"
+          fi
+        fi
+        make tools/erofs-utils/download V=s
         make download -j8
         find dl -size -1024c -exec rm -f {} \;
 
