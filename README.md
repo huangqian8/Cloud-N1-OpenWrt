@@ -16,7 +16,7 @@
 
 ## 固件配置
 
-编译目标为 QEMU ARM Virtual Machine，子目标为 64-bit ARM machines。完整编译选项见 [config.sh](config.sh)。
+编译目标为 ARM SystemReady（`armsr`），子目标为 64 位 `armv8`。完整编译选项见 [config.sh](config.sh)。
 
 <details>
 <summary>额外启用的插件和主题</summary>
