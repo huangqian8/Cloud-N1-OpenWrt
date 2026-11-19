@@ -5,9 +5,11 @@ on:
     branches:
       - main
     paths:
-      - 'README.md'
+      - '.github/workflows/cloud-n1-openwrt.yaml'
+      - 'files/**'
       - 'script.sh'
       - 'config.sh'
+  workflow_dispatch:
   schedule:
     - cron: 0 8 * * 0
 
@@ -29,6 +31,34 @@ jobs:
 
     steps:
 
+    - name: Resolve latest kernel version
+      id: resolve_kernel
+      run: |
+        kernel_api="https://github.com/${KERNEL_REPO_URL}/releases/expanded_assets/kernel_${KERNEL_TAG}"
+
+        if [[ "$KERNEL_VERSION" == "latest" ]]; then
+          latest_version="$(curl -fsSL "$kernel_api" | grep -oP "(?<=[/>])[0-9]+\.[0-9]+\.[0-9]+(?=\.tar\.gz)" | sort -urV | head -n 1)"
+        elif [[ "$KERNEL_VERSION" =~ \.y$ ]]; then
+          kernel_series="$(echo "$KERNEL_VERSION" | awk -F '.' '{print $1"."$2}')"
+          kernel_regex="${kernel_series//./\\.}"
+          latest_version="$(curl -fsSL "$kernel_api" | grep -oP "(?<=[/>])${kernel_regex}\.[0-9]+(?=\.tar\.gz)" | sort -urV | head -n 1)"
+        else
+          echo "Using fixed kernel version: $KERNEL_VERSION"
+          echo "RESOLVED_KERNEL_VERSION=$KERNEL_VERSION" >> $GITHUB_ENV
+          echo "kernel_version=$KERNEL_VERSION" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
+
+        if [[ -z "$latest_version" ]]; then
+          echo "Unable to resolve latest kernel version from $kernel_api"
+          exit 1
+        fi
+
+        echo "Resolved latest kernel version: $latest_version"
+        echo "KERNEL_VERSION=$latest_version" >> $GITHUB_ENV
+        echo "RESOLVED_KERNEL_VERSION=$latest_version" >> $GITHUB_ENV
+        echo "kernel_version=$latest_version" >> "$GITHUB_OUTPUT"
+
     - name: Free Disk Space (Ubuntu)
       uses: jlumbroso/free-disk-space@v1.3.1
       continue-on-error: true
@@ -48,7 +78,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v6
       with:
-        ref: main
+        ref: ${{ github.sha }}
 
     - name: Disk space
       run: |
@@ -72,7 +102,7 @@ jobs:
         useVersionInfo=$(git show -s --date=short --format="date: %cd<br/>commit: %s<br/>commit hash: %H")
         echo "useVersionInfo=$useVersionInfo" >> $GITHUB_ENV
         echo "DATE=$(date "+%Y-%m-%d %H:%M:%S")" >> $GITHUB_ENV
-        echo "tag_name=$(date +%Y%m%d)" >> $GITHUB_ENV
+        echo "tag_name=$(date +%Y%m%d)-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}" >> $GITHUB_ENV
 
     - name: Update feeds
       run: |
@@ -117,11 +147,16 @@ jobs:
       run: |
         cd openwrt
         make defconfig
+        for package in luci-app-adguardhome luci-app-amlogic luci-theme-opentomcat; do
+          if ! grep -Fxq "CONFIG_PACKAGE_${package}=y" .config; then
+            echo "::error::Required package missing after defconfig: $package"
+            exit 1
+          fi
+        done
         make download -j8
         find dl -size -1024c -exec rm -f {} \;
 
     - name: Compile the firmware
-      id: compile
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
@@ -135,36 +170,6 @@ jobs:
         du -h --max-depth=1 ./build_dir
         du -h --max-depth=1 ./bin
         rm -rf ./build_dir
-        echo "status=success" >> $GITHUB_OUTPUT
-
-    - name: Resolve latest kernel version
-      id: resolve_kernel
-      if: steps.compile.outputs.status == 'success' && !cancelled()
-      run: |
-        kernel_api="https://github.com/${KERNEL_REPO_URL}/releases/expanded_assets/kernel_${KERNEL_TAG}"
-
-        if [[ "$KERNEL_VERSION" == "latest" ]]; then
-          latest_version="$(curl -fsSL "$kernel_api" | grep -oP "(?<=[/>])[0-9]+\.[0-9]+\.[0-9]+(?=\.tar\.gz)" | sort -urV | head -n 1)"
-        elif [[ "$KERNEL_VERSION" =~ \.y$ ]]; then
-          kernel_series="$(echo "$KERNEL_VERSION" | awk -F '.' '{print $1"."$2}')"
-          kernel_regex="${kernel_series//./\\.}"
-          latest_version="$(curl -fsSL "$kernel_api" | grep -oP "(?<=[/>])${kernel_regex}\.[0-9]+(?=\.tar\.gz)" | sort -urV | head -n 1)"
-        else
-          echo "Using fixed kernel version: $KERNEL_VERSION"
-          echo "RESOLVED_KERNEL_VERSION=$KERNEL_VERSION" >> $GITHUB_ENV
-          echo "kernel_version=$KERNEL_VERSION" >> "$GITHUB_OUTPUT"
-          exit 0
-        fi
-
-        if [[ -z "$latest_version" ]]; then
-          echo "Unable to resolve latest kernel version from $kernel_api"
-          exit 1
-        fi
-
-        echo "Resolved latest kernel version: $latest_version"
-        echo "KERNEL_VERSION=$latest_version" >> $GITHUB_ENV
-        echo "RESOLVED_KERNEL_VERSION=$latest_version" >> $GITHUB_ENV
-        echo "kernel_version=$latest_version" >> "$GITHUB_OUTPUT"
 
     - name: Package Armvirt as OpenWrt
       uses: ophub/flippy-openwrt-actions@main
@@ -178,8 +183,23 @@ jobs:
 
     - name: Organize files
       id: organize
-      if: steps.compile.outputs.status == 'success' && env.UPLOAD_FIRMWARE == 'true' && !cancelled()
+      if: success() && env.UPLOAD_FIRMWARE == 'true'
       run: |
+        : "${PACKAGED_OUTPUTPATH:?Missing packaged firmware directory}"
+        shopt -s nullglob
+        images=("$PACKAGED_OUTPUTPATH"/*s905d*.img "$PACKAGED_OUTPUTPATH"/*s905d*.img.gz)
+        found=false
+        for image in "${images[@]}"; do
+          if [[ -f "$image" && -s "$image" ]]; then
+            found=true
+            break
+          fi
+        done
+        if [[ "$found" != true ]]; then
+          echo "::error::No non-empty s905d firmware image in $PACKAGED_OUTPUTPATH"
+          exit 1
+        fi
+        shopt -u nullglob
         cd openwrt/bin/targets/*/*
         rm -rf packages openwrt-armvirt-64-default.manifest openwrt-armvirt-64-Image sha256sums version.buildinfo feeds.buildinfo openwrt-armvirt-64-generic-kernel.bin openwrt-armvirt-64-generic.manifest
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
@@ -187,7 +207,7 @@ jobs:
 
     - name: Upload firmware directory
       uses: actions/upload-artifact@v4
-      if: steps.organize.outputs.status == 'success' && !cancelled()
+      if: success() && steps.organize.outputs.status == 'success'
       with:
         name: OpenWrt_firmware
         path: |
@@ -195,12 +215,14 @@ jobs:
             ${{ env.PACKAGED_OUTPUTPATH }}
 
     - name: Create release
+      id: release
+      if: success() && steps.organize.outputs.status == 'success'
       uses: ncipollo/release-action@v1
       with:
         name: ${{ env.DATE }} ❤️ | N1-OpenWrt 自动编译打包
-        allowUpdates: true
+        artifactErrorsFailBuild: true
         tag: ${{ env.tag_name }}
-        commit: main
+        commit: ${{ github.sha }}
         token: ${{ secrets.actions_release }}
         body: |
           编译使用版本:
@@ -213,6 +235,7 @@ jobs:
         artifacts: "${{ env.FIRMWARE }}/*.*,${{ env.PACKAGED_OUTPUTPATH }}/*.*"
 
     - name: Remove old Releases
+      if: success() && steps.release.outcome == 'success'
       uses: dev-drprasad/delete-older-releases@v0.3.4
       with:
         keep_latest: 3

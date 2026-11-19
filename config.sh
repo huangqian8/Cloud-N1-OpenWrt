@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 cd openwrt
 # 禁用 ksmbd 及相关包，避免内核 6.12 与 ksmbd 3.5.4 不兼容
 # ksmbd-server 和 autosamba 依赖 kmod-fs-ksmbd，必须一起禁用

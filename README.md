@@ -1,52 +1,86 @@
-# 云编译 N1 OpenWrt 固件
+# 斐讯 N1 OpenWrt 固件
 
-**说明**：
-- 本项目使用 Github Actions 下载 [Lean](https://github.com/coolsnowwolf/lede) 的 `Openwrt` 源码仓库，进行云编译。
-- 本项目使用定时编译（北京时间每周日下午4点开始运行编译）及触发编译（更新 `README.md`、 `script.sh`、 `config.sh`后可开始编译）两种方式。
-- 本项目编译固件适配斐讯 N1 盒子，如需刷机，可直接下载 [releases](https://github.com/huangqian8/Cloud-N1-OpenWrt/releases/latest) 内固件。
-- 本项目编译配置如下：
+本项目使用 GitHub Actions 编译 Lean 的 OpenWrt 源码，并打包成适用于斐讯 N1（S905D）的刷机镜像。
 
-**添加编译**（默认未勾选，自选！）
-  - [x] 修改架构适配斐讯 N1 盒子
-    - [x] Target System —— QEMU ARM Virtual Machine
-    - [x] Subtarget —— 64-bit ARM machines
-  - [x] `luci-app-docker`
-  - [x] `luci-app-dockerman`
-  - [x] `luci-theme-opentomcat`
-  - [x] `luci-app-adguardhome`
-  - [x] `luci-app-amlogic`
+**[下载最新固件](https://github.com/huangqian8/Cloud-N1-OpenWrt/releases/latest)** · [查看构建记录](https://github.com/huangqian8/Cloud-N1-OpenWrt/actions/workflows/cloud-n1-openwrt.yaml)
 
-**默认编译**（默认勾选，未取消！）
-  - [x] `luci-app-autoreboot`
-  - [x] `luci-app-filetransfer`
-  - [x] `luci-app-nlbwmon`
-  - [x] `luci-app-ssr-plus`
-    - [x] `Include ChinaDNS-NG`
-    - [x] `Include MosDNS`
-    - [x] `Include Shadowsocks Simple Obfs Plugin`
-    - [x] `Include ShadowsocksR Libev Client`
-  - [x] `luci-app-vlmcsd`
-  - [x] `luci-app-wol`
+## 编译方式
 
-**强制编译**（默认勾选，无法取消！）
-  - [x] `luci-app-firewall`
+- **定时编译**　每周日北京时间 16:00 触发。
+- **推送编译**　向 `main` 推送对 `script.sh`、`config.sh`、`.github/workflows/cloud-n1-openwrt.yaml` 或 `files/` 下文件的修改时触发。
+- **手动编译**　在 Actions 页面选择 **Cloud N1 OpenWrt**，点击 **Run workflow**。
 
-**精简编译**（默认勾选，取消！）
-  - [x] `luci-app-accesscontrol`
-  - [x] `luci-app-arpbind`
-  - [x] `luci-app-ddns`
-  - [x] `Include rclone-webui`
-  - [x] `Include rclone-ng (another webui)`
-  - [x] `luci-app-turboacc`
-    - [x] `Include Flow Offload`
-    - [x] `Include Shortcut-FE CM`
-    - [x] `Include BBR CCA`
-    - [x] `Include Pdnsd`
-  - [x] `UnblockNeteaseMusic Golang Version`
-  - [x] `luci-app-upnp`
-  - [x] `luci-app-vsftpd`
+## 固件配置
 
-**更新日志**
+编译目标为 QEMU ARM Virtual Machine，子目标为 64-bit ARM machines。完整编译选项见 [config.sh](config.sh)。
+
+<details>
+<summary>额外启用的插件和主题</summary>
+
+- `luci-app-docker`
+- `luci-app-dockerman`
+- `luci-theme-opentomcat`
+- `luci-app-adguardhome`
+- `luci-app-amlogic`
+
+</details>
+
+<details>
+<summary>保留的默认组件</summary>
+
+- `luci-app-autoreboot`
+- `luci-app-filetransfer`
+- `luci-app-nlbwmon`
+- `luci-app-ssr-plus`
+  - `Include ChinaDNS-NG`
+  - `Include MosDNS`
+  - `Include Shadowsocks Simple Obfs Plugin`
+  - `Include ShadowsocksR Libev Client`
+- `luci-app-vlmcsd`
+- `luci-app-wol`
+
+</details>
+
+<details>
+<summary>必选组件</summary>
+
+- `luci-app-firewall`
+
+</details>
+
+<details>
+<summary>已禁用的组件和选项</summary>
+
+- `luci-app-accesscontrol`
+- `luci-app-arpbind`
+- `luci-app-ddns`
+- `Include rclone-webui`
+- `Include rclone-ng (another webui)`
+- `luci-app-turboacc`
+  - `Include Flow Offload`
+  - `Include Shortcut-FE CM`
+  - `Include BBR CCA`
+  - `Include Pdnsd`
+- `UnblockNeteaseMusic Golang Version`
+- `luci-app-upnp`
+- `luci-app-vsftpd`
+
+</details>
+
+## 界面预览
+
+<details>
+<summary>查看 OpenWrt 管理界面截图</summary>
+
+![斐讯 N1 的 OpenWrt 管理界面](snapshot.png)
+
+</details>
+
+## 更新日志
+
+<details>
+<summary>查看完整更新记录（2020–2026）</summary>
+
 - 20260515 修改打包脚本，获取实际内核版本，输出到 release 说明
 - 20250424 修正底层编译环境 `Ubuntu 20.04` 弃用造成的编译错误
 - 20250303 修正 `actions/upload-artifact` 版本升级造成的编译错误
@@ -76,11 +110,10 @@
 - 20200926 修正 `openclash` 编译错误
 - 20200727 `docker` 兼容性造成编译错误，暂不集成
 
-**界面截图**
+</details>
 
-![N1_OpenWRT.png](https://github.com/huangqian8/Cloud-N1-OpenWrt/blob/main/snapshot.png)
+## 致谢
 
-## 感谢 ❤️
-- 源码来源： Lean 的 Openwrt 源码仓库 https://github.com/coolsnowwolf/lede
-- 脚本来源： P3TERX 的 使用 GitHub Actions 云编译 OpenWrt https://github.com/P3TERX/Actions-OpenWrt
-- 打包脚本： Flippy 的 OpenWrt 打包脚本 Actions https://github.com/ophub/flippy-openwrt-actions
+- OpenWrt 源码来自 [Lean 的 LEDE 项目](https://github.com/coolsnowwolf/lede)。
+- 云编译脚本参考 [P3TERX 的 Actions-OpenWrt](https://github.com/P3TERX/Actions-OpenWrt)。
+- 固件打包使用 [ophub/flippy-openwrt-actions](https://github.com/ophub/flippy-openwrt-actions)。
