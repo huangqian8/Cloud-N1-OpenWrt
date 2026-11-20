@@ -21,7 +21,7 @@ env:
   UPLOAD_FIRMWARE: true
   TZ: Asia/Shanghai
   KERNEL_VERSION: latest
-  KERNEL_REPO_URL: breakingbadboy/OpenWrt
+  KERNEL_REPO_URL: ophub/kernel
   KERNEL_TAG: stable
 
 jobs:
